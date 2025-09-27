@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Alur Kerja & Dokumentasi CPPB</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .flowchart-box {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        .flowchart-box:hover, .flowchart-box.active {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: #3b82f6;
+        }
+        .arrow { position: relative; }
+        .arrow-down::after {
+            content: ''; position: absolute; left: 50%; bottom: -20px;
+            transform: translateX(-50%); width: 0; height: 0;
+            border-left: 10px solid transparent; border-right: 10px solid transparent;
+            border-top: 15px solid #6b7280;
+        }
+         .arrow-right::after {
+            content: ''; position: absolute; top: 50%; right: -25px;
+            transform: translateY(-50%); width: 0; height: 0;
+            border-top: 10px solid transparent; border-bottom: 10px solid transparent;
+            border-left: 15px solid #6b7280;
+        }
+        .form-container {
+            border: 1px solid #e5e7eb; border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .form-content table { width: 100%; border-collapse: collapse; }
+        .form-content th, .form-content td {
+            border: 1px solid #d1d5db; padding: 0.75rem;
+            text-align: left; font-size: 0.875rem;
+        }
+        .form-content th {
+            background-color: #f3f4f6; font-weight: 600;
+            vertical-align: middle; text-align: center;
+        }
+        .form-header {
+            display: flex; justify-content: space-between; font-size: 0.875rem;
+            margin-bottom: 1rem; padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .hidden { display: none; }
+        .info-box {
+            display: flex; align-items: flex-start; margin-top: 1rem; padding: 0.75rem;
+            background-color: #eff6ff; border: 1px solid #bfdbfe;
+            border-radius: 0.5rem; font-size: 0.875rem; color: #1e40af;
+        }
+        .info-box svg { flex-shrink: 0; width: 1.25rem; height: 1.25rem; margin-right: 0.75rem; }
+        .sub-header-row td { background-color: #e5e7eb; font-weight: bold; text-align: center; }
+        .btn-contoh {
+            background-color: #16a34a; color: white;
+            font-weight: bold; padding: 0.5rem 1rem;
+            border-radius: 0.5rem; transition: background-color 0.3s;
+        }
+        .btn-contoh:hover { background-color: #15803d; }
+         .btn-reset {
+            background-color: #6b7280; color: white;
+            font-weight: bold; padding: 0.5rem 1rem;
+            border-radius: 0.5rem; transition: background-color 0.3s;
+        }
+        .btn-reset:hover { background-color: #4b5563; }
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 md:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-800">Aplikasi Alur Kerja & Dokumentasi CPPB</h1>
+            <p class="text-gray-600 mt-2">Klik pada setiap kotak dalam alur untuk menampilkan formulir yang relevan.</p>
+        </header>
+
+        <!-- Diagram Alur -->
+        <div id="flowchart-container" class="flex flex-col items-center space-y-8 mb-12">
+            <!-- Dasar/Referensi -->
+            <div class="flowchart-box bg-gray-600 text-white p-4 rounded-lg shadow-md w-64 text-center arrow arrow-down" data-form-ids="9a,9b,9c,production-flowchart">
+                <h2 class="font-bold">DASAR/REFERENSI</h2>
+                <p>(Form 9 & Analisis Bahaya)</p>
+            </div>
+
+            <!-- Alur Rutin -->
+            <div class="border-4 border-blue-500 rounded-xl p-6 w-full max-w-5xl shadow-lg bg-white">
+                <h3 class="text-2xl font-bold text-center mb-6 text-blue-600">ALUR RUTIN</h3>
+                <div class="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-4">
+                    <div class="flowchart-box bg-blue-500 text-white p-4 rounded-lg shadow-md w-56 text-center arrow md:arrow-right" data-form-ids="1,2">
+                        <h2 class="font-bold">[INPUT]</h2>
+                        <p>(Form 1, 2)</p>
+                    </div>
+                    <div class="flowchart-box bg-blue-500 text-white p-4 rounded-lg shadow-md w-56 text-center arrow md:arrow-right" data-form-ids="10,3,4">
+                        <h2 class="font-bold">[PROSES & MONEV]</h2>
+                        <p>(Form 10, 3, 4)</p>
+                    </div>
+                    <div class="flowchart-box bg-blue-500 text-white p-4 rounded-lg shadow-md w-56 text-center" data-form-ids="5">
+                        <h2 class="font-bold">[DISTRIBUSI]</h2>
+                        <p>(Form 5)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panah ke Alur Insidentil -->
+            <div class="relative w-full max-w-5xl text-center">
+                 <div class="inline-block text-red-600 font-semibold bg-red-100 border border-red-500 p-2 rounded-lg">
+                    <span class="text-5xl leading-none">&darr;</span> (Jika diumumkan masalah pada tahap MONEV)
+                </div>
+            </div>
+
+            <!-- Alur Insidentil -->
+            <div class="border-4 border-red-500 rounded-xl p-6 w-full max-w-5xl shadow-lg bg-white">
+                <h3 class="text-2xl font-bold text-center mb-6 text-red-600">ALUR INSIDENTIL</h3>
+                <div class="flex flex-col md:flex-row justify-center items-center gap-8">
+                    <div class="flowchart-box bg-red-500 text-white p-4 rounded-lg shadow-md w-64 text-center" data-form-ids="6,8">
+                        <h2 class="font-bold">[PENANGANAN MASALAH]</h2>
+                        <p>(Form 6, 8)</p>
+                    </div>
+                    <div class="font-bold text-gray-700 text-xl">atau</div>
+                    <div class="flowchart-box bg-red-500 text-white p-4 rounded-lg shadow-md w-64 text-center" data-form-ids="11a,11b,11c,11d,12a,12b,12c1,12c2,12c3">
+                        <h2 class="font-bold">[RECALL & TELUSUR]</h2>
+                        <p>(Form 11, 12)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Kontainer untuk menampilkan formulir -->
+        <div id="form-display-area" class="space-y-8">
+             <!-- Semua kontainer form akan diisi secara dinamis oleh JavaScript -->
+            <div id="form-1" class="form-content hidden form-container bg-white p-6"></div>
+            <div id="form-2" class="form-content hidden form-container bg-white p-6"></div>
+            <div id="form-3" class="form-content hidden form-container bg-white p-6"></div>
+            <div id="form-4" class="form-content hidden form-container bg-white p-6"></div>
+            <div id="form-5" class="form-content hidden form-container bg-white p-6"></div>
+            <div id="form-6" class="form-content hidden form-container bg-white p-6"></div>
+            <div id="form-8" class="form-content hidden form-container bg-white p-6"></div>
+            <div id="form-9a" class="form-content hidden form-container bg-white p-6"></div>
+            <div id="form-9b" class="form-content hidden form-container bg-white p-6"></div>
+            <div id="form-9c" class="form-content hidden form-container bg-white p-6"></div>
+            <div id="form-production-flowchart" class="form-content hidden form-container bg-white p-6"></div>
+            <div id="form-10" class="form-content hidden form-container bg-white p-6"></div>
+            <div id="form-11a" class="form-content hidden form-container bg-white p-6"></div>
+            <div id="form-11b" class="form-content hidden form-container bg-white p-6"></div>
+            <div id="form-11c" class="form-content hidden form-container bg-white p-6"></div>
+            <div id="form-11d" class="form-content hidden form-container bg-white p-6"></div>
+            <div id="form-12a" class="form-content hidden form-container bg-white p-6"></div>
+            <div id="form-12b" class="form-content hidden form-container bg-white p-6"></div>
+            <div id="form-12c1" class="form-content hidden form-container bg-white p-6"></div>
+            <div id="form-12c2" class="form-content hidden form-container bg-white p-6"></div>
+            <div id="form-12c3" class="form-content hidden form-container bg-white p-6"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- KONSTANTA ---
+            const KODE_BATCH = "KSN280925-01";
+            const NAMA_PRODUK = "Kukis Selai Nanas";
+            const NAMA_IRTP = "Kue Lezat Bunda";
+            
+            // --- TEMPLATE untuk form kosong ---
+            const formTemplates = {
+                '1': `<div class="flex justify-between items-center"><h3 class="text-center">Formulir Penerimaan Bahan Baku dan Bahan Kemas</h3><div class="flex gap-2"><button class="btn-contoh" data-form="1">Lihat Contoh</button><button class="btn-reset hidden" data-form="1">Kosongkan</button></div></div><div class="form-header"><div>NAMA IRTP: <span class="font-mono">${NAMA_IRTP}</span></div><div>No. Dokumen: <span class="font-mono">FR-PROD-01</span><br>Berlaku Sejak: <span class="font-mono">01/01/2025</span></div></div><div class="overflow-x-auto"><table><thead><tr><th rowspan="2">Tanggal Pembelian</th><th rowspan="2">Nama Barang</th><th rowspan="2">Nama & Alamat Suplier</th><th colspan="2">Kuantitas</th><th rowspan="2">Tgl Kadaluarsa & Kode Produksi</th><th rowspan="2">Jumlah</th><th rowspan="2">Terima/Tolak</th><th rowspan="2">Alasan</th><th rowspan="2">Paraf</th></tr><tr><th>Satuan</th><th>Total</th></tr></thead><tbody><tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table><p class="text-xs mt-2 italic">*Tgl Kadaluarsa & Kode Produksi dikecualikan untuk bahan-bahan yang tidak lazim mencantumkannya (contoh: buah segar, sayur segar).</p></div>`,
+                '2': `<div class="flex justify-between items-center"><h3 class="text-center">Formulir Penggunaan Bahan Baku (Kartu Stok)</h3><div class="flex gap-2"><button class="btn-contoh" data-form="2">Lihat Contoh</button><button class="btn-reset hidden" data-form="2">Kosongkan</button></div></div><div class="form-header"><div>NAMA IRTP: <span class="font-mono">${NAMA_IRTP}</span></div><div>No. Dokumen: <span class="font-mono">FR-PROD-02</span><br>Berlaku Sejak: <span class="font-mono">01/01/2025</span></div></div><p class="text-sm mb-4">Lokasi Pemantauan: Gudang Bahan Kering</p><div class="overflow-x-auto"><table><thead><tr><th>No</th><th>Tanggal</th><th>Nama Bahan Baku</th><th>Jml Masuk</th><th>Jml Keluar/Digunakan</th><th>Balance (Sisa)</th><th>Paraf</th></tr></thead><tbody><tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>`,
+                '3': `<div class="flex justify-between items-center"><h3 class="text-center">Formulir Pemantauan / Monitoring Proses</h3><div class="flex gap-2"><button class="btn-contoh" data-form="3">Lihat Contoh</button><button class="btn-reset hidden" data-form="3">Kosongkan</button></div></div><div class="form-header"><div>NAMA IRTP: <span class="font-mono">${NAMA_IRTP}</span></div><div>No. Dokumen: <span class="font-mono">FR-PROD-03</span><br>Berlaku Sejak: <span class="font-mono">01/01/2025</span></div></div><p class="text-sm font-semibold mb-2">Nama Produk: ${NAMA_PRODUK}</p><div class="overflow-x-auto"><table><thead><tr><th rowspan="2">Tanggal</th><th rowspan="2">Kode Produksi</th><th colspan="4">Berat Bahan Yang Digunakan (kg)</th><th colspan="2">Proses 1</th><th colspan="3">Proses 2</th><th rowspan="2">Jml Produk Jadi (kg)</th><th rowspan="2">Paraf</th></tr><tr><th>Bahan A</th><th>Bahan B</th><th>Bahan C</th><th>Jml Adonan</th><th>Mulai</th><th>Selesai</th><th>Mulai</th><th>Selesai</th><th>Parameter Kritis (CCP/CP)</th></tr></thead><tbody><tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>`,
+                '4': `<div class="flex justify-between items-center"><h3 class="text-center">Formulir Pemantauan / Monitoring Produk Akhir</h3><div class="flex gap-2"><button class="btn-contoh" data-form="4">Lihat Contoh</button><button class="btn-reset hidden" data-form="4">Kosongkan</button></div></div><div class="form-header"><div>NAMA IRTP: <span class="font-mono">${NAMA_IRTP}</span></div><div>No. Dokumen: <span class="font-mono">FR-QC-01</span><br>Berlaku Sejak: <span class="font-mono">01/01/2025</span></div></div><div class="overflow-x-auto"><table><thead><tr><th rowspan="2">No</th><th rowspan="2">Tanggal</th><th rowspan="2">Nama Produk</th><th rowspan="2">Kode Produksi</th><th rowspan="2">Jumlah</th><th colspan="4">Parameter Rilis (Organoleptik)</th><th rowspan="2">OK/Tdk OK</th></tr><tr><th>Rasa</th><th>Aroma</th><th>Warna</th><th>Tekstur</th></tr></thead><tbody><tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>`,
+                '5': `<div class="flex justify-between items-center"><h3 class="text-center">Formulir Distribusi Produk Akhir</h3><div class="flex gap-2"><button class="btn-contoh" data-form="5">Lihat Contoh</button><button class="btn-reset hidden" data-form="5">Kosongkan</button></div></div><div class="form-header"><div>NAMA IRTP: <span class="font-mono">${NAMA_IRTP}</span></div><div>No. Dokumen: <span class="font-mono">FR-WH-01</span><br>Berlaku Sejak: <span class="font-mono">01/01/2025</span></div></div><div class="overflow-x-auto"><table><thead><tr><th>No</th><th>Tanggal</th><th>Nama Produk</th><th>Kode Produksi</th><th>Jml Distribusi</th><th>Nama Distributor/Pelanggan</th><th>Alamat & Telp</th><th>Tgl Terima</th><th>Jml Diterima</th><th>Paraf</th></tr></thead><tbody><tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>`,
+                '6': `<div class="flex justify-between items-center"><h3 class="text-center">Formulir Penanganan Ketidaksesuaian</h3><div class="flex gap-2"><button class="btn-contoh" data-form="6">Lihat Contoh</button><button class="btn-reset hidden" data-form="6">Kosongkan</button></div></div><div class="form-header"><div>NAMA IRTP: <span class="font-mono">${NAMA_IRTP}</span></div><div>No. Dokumen: <span class="font-mono">FR-QA-01</span><br>Berlaku Sejak: <span class="font-mono">01/01/2025</span></div></div><div class="overflow-x-auto"><table><thead><tr><th>Tanggal</th><th>Nama Produk</th><th>Kode Produksi</th><th>Jml Produk</th><th>Uraian Ketidaksesuaian</th><th>Tindakan Perbaikan</th><th>Hasil Akhir (OK/Rework/Musnah)</th></tr></thead><tbody><tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>`,
+                '8': `<div class="flex justify-between items-center"><h3 class="text-center">Formulir Pengolahan Ulang (Rework)</h3><div class="flex gap-2"><button class="btn-contoh" data-form="8">Lihat Contoh</button><button class="btn-reset hidden" data-form="8">Kosongkan</button></div></div><div class="form-header"><div>NAMA IRTP: <span class="font-mono">${NAMA_IRTP}</span></div><div>No. Dokumen: <span class="font-mono">FR-PROD-04</span><br>Berlaku Sejak: <span class="font-mono">01/01/2025</span></div></div><div class="overflow-x-auto"><table><thead><tr><th rowspan="2">Tanggal</th><th rowspan="2">Nama Produk</th><th rowspan="2">Kode Produksi</th><th rowspan="2">Jml Awal</th><th colspan="3">Proses Rework</th><th colspan="4">Parameter rilis</th><th rowspan="2">Jml Jadi</th><th rowspan="2">OK/Tdk OK</th><th rowspan="2">Paraf</th></tr><tr><th>Mulai</th><th>Selesai</th><th>Parameter</th><th>Rasa</th><th>Aroma</th><th>Warna</th><th>Tekstur</th></tr></thead><tbody><tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>`,
+                '9a': `<div class="flex justify-between items-center"><h3>9a. Komposisi Bahan</h3><div class="flex gap-2"><button class="btn-contoh" data-form="9a">Lihat Contoh</button><button class="btn-reset hidden" data-form="9a">Kosongkan</button></div></div><ul class="list-disc list-inside space-y-2 bg-gray-50 p-4 rounded-md"><li>BAHAN BAKU UTAMA: ...</li><li>BAHAN INGRIDIEN LAIN: ...</li><li>BAHAN PENGEMAS: ...</li></ul>`,
+                '9b': `
+                    <div class="flex justify-between items-center">
+                        <h3>9b. Deskripsi Bahan (Baku, Tambahan, & Pengemas)</h3>
+                        <div class="flex gap-2">
+                            <button class="btn-contoh" data-form="9b">Lihat Contoh</button>
+                            <button class="btn-reset hidden" data-form="9b">Kosongkan</button>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-4">Formulir ini digunakan untuk mendeskripsikan seluruh bahan yang digunakan dalam proses produksi, termasuk bahan baku utama, bahan tambahan, dan bahan pengemas. Deskripsi yang jelas penting untuk penelusuran dan analisis bahaya.</p>
+                    <div class="overflow-x-auto">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="w-12">No</th>
+                                    <th class="w-1/3">Kategori</th>
+                                    <th>Uraian</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td><td>Nama bahan</td><td></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td><td>Komposisi</td><td></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td><td>Pengemasan dari Pemasok</td><td></td>
+                                </tr>
+                                <tr>
+                                    <td>4</td><td>Masa kadaluarsa</td><td></td>
+                                </tr>
+                                <tr>
+                                    <td>5</td><td>Cara transportasi</td><td></td>
+                                </tr>
+                                <tr>
+                                    <td>6</td><td>Cara penyimpanan</td><td></td>
+                                </tr>
+                                <tr>
+                                    <td>7</td><td>Persyaratan Regulasi</td><td></td>
+                                </tr>
+                                 <tr>
+                                    <td>8</td><td>Persyaratan Internal</td><td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>`,
+                '9c': `<div class="flex justify-between items-center"><h3>9c. Contoh Deskripsi Produk Jadi</h3><div class="flex gap-2"><button class="btn-contoh" data-form="9c">Lihat Contoh</button><button class="btn-reset hidden" data-form="9c">Kosongkan</button></div></div><div class="overflow-x-auto"><table><thead><tr><th>No</th><th>Kategori</th><th>Uraian</th></tr></thead><tbody><tr><td>1</td><td>Nama produk</td><td></td></tr><tr><td>2</td><td>Deskripsikan produk akhir dan kategori proses</td><td></td></tr><tr><td>3</td><td>Komposisi</td><td></td></tr><tr><td>4</td><td>Pengemasan</td><td></td></tr><tr><td>5</td><td>Deskripsi Organoleptik</td><td></td></tr><tr><td>6</td><td>Masa Kadaluarsa</td><td></td></tr><tr><td>7</td><td>Cara Transportasi</td><td></td></tr><tr><td>8</td><td>Cara Penyimpanan</td><td></td></tr><tr><td>9</td><td>Persyaratan Regulasi/SNI/Pelanggan</td><td></td></tr></tbody></table></div>`,
+                'production-flowchart': `
+                    <h3>Diagram Alir Produksi & Analisis CCP/CP</h3>
+                    <p class="mb-4 text-gray-700">Diagram alir ini memetakan setiap langkah proses produksi dari awal hingga akhir, dan mengidentifikasi Titik Kendali Kritis (CCP) dan Titik Kendali (CP). Gunakan tombol di masing-masing bagian untuk melihat contoh.</p>
+                    
+                    <div class="mb-8 p-4 border rounded-lg bg-white">
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="text-lg font-semibold">Diagram Alir Produksi</h4>
+                            <div class="flex gap-2">
+                                <button class="btn-contoh" data-sub-form="diagram">Lihat Contoh</button>
+                                <button class="btn-reset hidden" data-sub-form="diagram">Kosongkan</button>
+                            </div>
+                        </div>
+                        <div id="diagram-container" class="min-h-[100px] bg-gray-50 rounded-md p-4 flex justify-center items-center text-gray-500">
+                            (Klik 'Lihat Contoh' untuk menampilkan diagram)
+                        </div>
+                    </div>
+
+                    <div class="p-4 border rounded-lg bg-white">
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="text-lg font-semibold">Analisis Pendekatan CCP & CP</h4>
+                             <div class="flex gap-2">
+                                <button class="btn-contoh" data-sub-form="ccp">Lihat Contoh</button>
+                                <button class="btn-reset hidden" data-sub-form="ccp">Kosongkan</button>
+                            </div>
+                        </div>
+                        <div id="ccp-container" class="min-h-[100px] bg-gray-50 rounded-md p-4 flex justify-center items-center text-gray-500">
+                           (Klik 'Lihat Contoh' untuk menampilkan tabel analisis)
+                        </div>
+                    </div>`,
+                '10': `<div class="flex justify-between items-center"><h3 class="text-center">Formulir Pembersihan dan Sanitasi (Harian)</h3><div class="flex gap-2"><button class="btn-contoh" data-form="10">Lihat Contoh</button><button class="btn-reset hidden" data-form="10">Kosongkan</button></div></div><div class="overflow-x-auto"><table><thead><tr><th>No</th><th>Parameter Pemantauan</th><th>1</th><th>2</th><th>...</th><th>28</th><th>29</th><th>30</th><th>...</th></tr></thead><tbody><tr><td colspan="9" class="font-bold bg-gray-100">KARYAWAN</td></tr><tr><td>1</td><td>Cuci tangan sebelum bekerja</td><td></td><td></td><td>...</td><td></td><td></td><td></td><td>...</td></tr><tr><td colspan="9" class="font-bold bg-gray-100">PERALATAN</td></tr><tr><td>2</td><td>Pembersihan Meja Adonan</td><td></td><td></td><td>...</td><td></td><td></td><td></td><td>...</td></tr></tbody></table></div>`,
+                '11a': `<div class="flex justify-between items-center"><h3 class="text-center">11a. Form Informasi Penyebab Penarikan</h3><div class="flex gap-2"><button class="btn-contoh" data-form="11a">Lihat Contoh</button><button class="btn-reset hidden" data-form="11a">Kosongkan</button></div></div><table class="w-full"><tbody><tr><td class="font-semibold w-1/3">Penyebab Penarikan (Recall Issue)</td><td></td></tr><tr><td class="font-semibold w-1/3">Asal Informasi (Internal/External)</td><td></td></tr></tbody></table>`,
+                '11b': `<div class="flex justify-between items-center"><h3 class="text-center">11b. Form Informasi Pangan</h3><div class="flex gap-2"><button class="btn-contoh" data-form="11b">Lihat Contoh</button><button class="btn-reset hidden" data-form="11b">Kosongkan</button></div></div><table class="w-full"><tbody><tr><td class="font-semibold">Jenis Pangan Dan Nama Dagang</td><td></td></tr><tr><td class="font-semibold">Jenis Kemasan</td><td></td></tr><tr><td class="font-semibold">Kode Produksi</td><td></td></tr></tbody></table>`,
+                '11c': `<div class="flex justify-between items-center"><h3 class="text-center">11c. Form Distribusi/Penjualan/Pengiriman</h3><div class="flex gap-2"><button class="btn-contoh" data-form="11c">Lihat Contoh</button><button class="btn-reset hidden" data-form="11c">Kosongkan</button></div></div><div class="overflow-x-auto"><table><thead><tr><th>Tanggal Pengiriman</th><th>Jumlah Terkirim</th><th>Distibutor/Agen</th><th>No Invoice/Surat Jalan</th><th>No Kendaraan</th><th>Jumlah Tersisa Di Distributor</th></tr></thead><tbody><tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>`,
+                '11d': `<div class="flex justify-between items-center"><h3 class="text-center">11d. Form Rangkuman Penarikan</h3><div class="flex gap-2"><button class="btn-contoh" data-form="11d">Lihat Contoh</button><button class="btn-reset hidden" data-form="11d">Kosongkan</button></div></div><div class="overflow-x-auto"><table><thead><tr><th>Aktivitas</th><th>Tgl/Jam Mulai</th><th>Tgl/Jam Selesai</th><th>Total waktu</th></tr></thead><tbody><tr><td>Mulai Penarikan</td><td></td><td></td><td></td></tr></tbody></table></div>`,
+                '12a': `<div class="flex justify-between items-center"><h3 class="text-center">12a. Form Informasi Awal</h3><div class="flex gap-2"><button class="btn-contoh" data-form="12a">Lihat Contoh</button><button class="btn-reset hidden" data-form="12a">Kosongkan</button></div></div><table class="w-full"><tbody><tr><td class="font-semibold w-1/3">Tanggal Laporan</td><td></td></tr><tr><td class="font-semibold w-1/3">Sumber Informasi</td><td></td></tr><tr><td class="font-semibold w-1/3">Nama Produk & Kode Produksi</td><td></td></tr></tbody></table>`,
+                '12b': `<div class="flex justify-between items-center"><h3 class="text-center">12b. Form Telusur Eksternal (Pengiriman)</h3><div class="flex gap-2"><button class="btn-contoh" data-form="12b">Lihat Contoh</button><button class="btn-reset hidden" data-form="12b">Kosongkan</button></div></div><div class="overflow-x-auto"><table><thead><tr><th>Tgl Kirim</th><th>Jumlah</th><th>Tujuan</th><th>No. Surat Jalan</th></tr></thead><tbody><tr><td>&nbsp;</td><td></td><td></td><td></td></tr></tbody></table></div>`,
+                '12c1': `<div class="flex justify-between items-center"><h3 class="text-center">12c-1. Telusur Internal (Bahan Baku)</h3><div class="flex gap-2"><button class="btn-contoh" data-form="12c1">Lihat Contoh</button><button class="btn-reset hidden" data-form="12c1">Kosongkan</button></div></div><div class="overflow-x-auto"><table><thead><tr><th>Nama Bahan</th><th>Pemasok</th><th>Kode Batch Pemasok</th><th>Tgl Terima</th></tr></thead><tbody><tr><td>&nbsp;</td><td></td><td></td><td></td></tr></tbody></table></div>`,
+                '12c2': `<div class="flex justify-between items-center"><h3 class="text-center">12c-2. Laporan Pemantauan CCP / CP</h3><div class="flex gap-2"><button class="btn-contoh" data-form="12c2">Lihat Contoh</button><button class="btn-reset hidden" data-form="12c2">Kosongkan</button></div></div><div class="overflow-x-auto"><table><thead><tr><th>Tgl/Waktu</th><th>Titik Kendali (CCP/CP)</th><th>Hasil Pemantauan</th><th>Tindakan Koreksi</th></tr></thead><tbody><tr><td>&nbsp;</td><td></td><td></td><td></td></tr></tbody></table></div>`,
+                '12c3': `<div class="flex justify-between items-center"><h3 class="text-center">12c-3. Rekaman Pembersihan dan Sanitasi</h3><div class="flex gap-2"><button class="btn-contoh" data-form="12c3">Lihat Contoh</button><button class="btn-reset hidden" data-form="12c3">Kosongkan</button></div></div><div class="overflow-x-auto"><table><thead><tr><th>Parameter</th><th>Hasil Pemantauan</th><th>Laporan / Rekaman: Tanggal, Shift, Jam</th></tr></thead><tbody><tr><td>&nbsp;</td><td></td><td></td></tr></tbody></table></div>`,
+            };
+
+            const exampleFunctions = {
+                '1': (el) => { el.querySelector('tbody').innerHTML = `<tr><td>27/09/2025</td><td>Tepung Terigu</td><td>Toko Bahan Kue Jaya, Bandung</td><td>Karung</td><td>25 kg</td><td>-</td><td>25 kg</td><td>Terima</td><td>-</td><td>ANI</td></tr><tr><td>27/09/2025</td><td>Nanas Palembang</td><td>Pasar Induk Cianjur</td><td>Buah</td><td>50 kg</td><td>-</td><td>50 kg</td><td>Terima</td><td>-</td><td>ANI</td></tr><tr><td>27/09/2025</td><td>Toples Plastik 500g</td><td>PT Kemas Rapi, Jakarta</td><td>Dus</td><td>5 dus (500pcs)</td><td>-</td><td>500 pcs</td><td>Terima</td><td>-</td><td>ANI</td></tr>`; },
+                '2': (el) => { el.querySelector('tbody').innerHTML = `<tr><td>1</td><td>27/09/2025</td><td>Tepung Terigu</td><td>25 kg</td><td>-</td><td>25 kg</td><td>ANI</td></tr><tr><td>2</td><td>28/09/2025</td><td>Tepung Terigu</td><td>-</td><td>4 kg (untuk batch ${KODE_BATCH})</td><td>21 kg</td><td>BUDI</td></tr><tr><td>3</td><td>28/09/2025</td><td>Gula Pasir</td><td>-</td><td>4.5 kg (untuk batch ${KODE_BATCH})</td><td>45.5 kg</td><td>BUDI</td></tr>`; },
+                '3': (el) => { el.querySelector('tbody').innerHTML = `<tr class="sub-header-row"><td colspan="13">Tahap 1: Pembuatan Selai Nanas</td></tr><tr><td>28/09/2025</td><td>${KODE_BATCH}</td><td>5.0 kg<br><small>(Nanas Parut)</small></td><td>2.5 kg<br><small>(Gula Pasir)</small></td><td>0.05 kg<br><small>(Rempah)</small></td><td>7.55</td><td>08:00</td><td>09:00</td><td>-</td><td>-</td><td>CP: Tekstur kental & kering</td><td>6.0</td><td>ANI</td></tr><tr class="sub-header-row"><td colspan="13">Tahap 2: Pembuatan Adonan Kukis</td></tr><tr><td>28/09/2025</td><td>${KODE_BATCH}</td><td>4.0 kg<br><small>(Tepung)</small></td><td>2.0 kg<br><small>(Mentega)</small></td><td>1.5 kg<br><small>(Gula+Telur)</small></td><td>7.5</td><td>09:15</td><td>09:45</td><td>-</td><td>-</td><td>CP: Konsistensi kalis</td><td>7.5</td><td>BUDI</td></tr><tr class="sub-header-row"><td colspan="13">Tahap 3: Penggabungan & Pemanggangan</td></tr><tr><td>28/09/2025</td><td>${KODE_BATCH}</td><td>7.5 kg<br><small>(Adonan Jadi)</small></td><td>6.0 kg<br><small>(Selai Jadi)</small></td><td>0.2 kg<br><small>(Olesan)</small></td><td>13.7</td><td>10:00</td><td>11:00</td><td>11:00</td><td>11:25</td><td>CCP: Suhu Oven 160°C</td><td>12.5</td><td>BUDI</td></tr>`; },
+                '4': (el) => { el.querySelector('tbody').innerHTML = `<tr><td>1</td><td>28/09/2025</td><td>${NAMA_PRODUK}</td><td>${KODE_BATCH}</td><td>25 Toples</td><td>Manis, khas nanas</td><td>Harum, khas nanas</td><td>Kuning keemasan</td><td>Renyah</td><td>OK</td></tr>`; },
+                '5': (el) => { el.querySelector('tbody').innerHTML = `<tr><td>1</td><td>29/09/2025</td><td>${NAMA_PRODUK}</td><td>${KODE_BATCH}</td><td>10 Toples</td><td>Toko Oleh-Oleh "RAOS"</td><td>Jl. Siliwangi No. 1, Kuningan</td><td>29/09/2025</td><td>10 Toples</td><td>RINA</td></tr>`; },
+                '6': (el) => { el.querySelector('tbody').innerHTML = `<tr><td>28/09/2025</td><td>${NAMA_PRODUK}</td><td>${KODE_BATCH}</td><td>0.5 kg (est.)</td><td>Sebagian kecil kukis di loyang #3 agak gosong di bagian bawah.</td><td>Kukis yang gosong dipisahkan, tidak dikemas. Loyang #3 dievaluasi.</td><td>Musnah</td></tr>`; },
+                '8': (el) => { el.querySelector('tbody').innerHTML = `<tr><td>28/09/2025</td><td>${NAMA_PRODUK}</td><td>${KODE_BATCH}</td><td>0.5 kg</td><td colspan="10" class="text-center italic">Tidak dilakukan rework karena produk gosong tidak bisa diolah kembali. Produk dimusnahkan.</td><td>ANI</td></tr>`; },
+                '9a': (el) => { el.querySelector('ul').innerHTML = `<li>BAHAN BAKU UTAMA: Tepung Terigu, Mentega, Telur, Gula, Nanas.</li><li>BAHAN INGRIDIEN LAIN: Kayu manis bubuk, Cengkeh bubuk, Garam, Kuning Telur (untuk olesan).</li><li>BAHAN PENGEMAS: Toples plastik PET 500g, Stiker label, Segel plastik.</li>`; },
+                '9b': (el) => { el.querySelector('tbody').innerHTML = `
+                    <tr class="sub-header-row"><td colspan="3"><strong>Contoh 1: Bahan Baku Utama (Tepung)</strong></td></tr>
+                    <tr><td>1</td><td>Nama bahan</td><td>Tepung Terigu Protein Rendah</td></tr>
+                    <tr><td>2</td><td>Komposisi</td><td>Gandum</td></tr>
+                    <tr><td>3</td><td>Pengemasan dari Pemasok</td><td>Karung kertas 25 kg</td></tr>
+                    <tr><td>4</td><td>Masa kadaluarsa</td><td>12 bulan di tempat kering dan sejuk</td></tr>
+                    <tr><td>5</td><td>Cara transportasi</td><td>Mobil box tertutup</td></tr>
+                    <tr><td>6</td><td>Cara penyimpanan</td><td>Disimpan di gudang bahan kering, di atas palet.</td></tr>
+                    <tr><td>7</td><td>Persyaratan Regulasi</td><td>SNI 3751:2018</td></tr>
+                    <tr><td>8</td><td>Persyaratan Internal</td><td>Harus bebas dari kutu dan bau apek.</td></tr>
+                    <tr class="sub-header-row"><td colspan="3"><strong>Contoh 2: Bahan Baku Tambahan (Segar)</strong></td></tr>
+                    <tr><td>1</td><td>Nama bahan</td><td>Nanas Palembang</td></tr>
+                    <tr><td>2</td><td>Komposisi</td><td>-</td></tr>
+                    <tr><td>3</td><td>Pengemasan dari Pemasok</td><td>Peti kayu / Keranjang</td></tr>
+                    <tr><td>4</td><td>Masa kadaluarsa</td><td>+/- 5 hari di suhu ruang</td></tr>
+                    <tr><td>5</td><td>Cara transportasi</td><td>Mobil bak terbuka</td></tr>
+                    <tr><td>6</td><td>Cara penyimpanan</td><td>Disimpan di area sejuk, diproses dalam 1 hari.</td></tr>
+                    <tr><td>7</td><td>Persyaratan Regulasi</td><td>-</td></tr>
+                    <tr><td>8</td><td>Persyaratan Internal</td><td>Tingkat kematangan 80%, tidak busuk/memar.</td></tr>
+                    <tr class="sub-header-row"><td colspan="3"><strong>Contoh 3: Bahan Pengemas</strong></td></tr>
+                    <tr><td>1</td><td>Nama bahan</td><td>Toples Plastik PET 500g</td></tr>
+                    <tr><td>2</td><td>Komposisi</td><td>Polyethylene terephthalate (PET)</td></tr>
+                    <tr><td>3</td><td>Pengemasan dari Pemasok</td><td>Kardus isi 100 pcs, dibungkus plastik</td></tr>
+                    <tr><td>4</td><td>Masa kadaluarsa</td><td>-</td></tr>
+                    <tr><td>5</td><td>Cara transportasi</td><td>Mobil box tertutup</td></tr>
+                    <tr><td>6</td><td>Cara penyimpanan</td><td>Disimpan di gudang bahan kemas, jauh dari sinar matahari.</td></tr>
+                    <tr><td>7</td><td>Persyaratan Regulasi</td><td>Food Grade, Bebas BPA</td></tr>
+                    <tr><td>8</td><td>Persyaratan Internal</td><td>Bersih, tidak retak, tidak berbau.</td></tr>
+                `; },
+                '9c': (el) => { el.querySelector('tbody').innerHTML = `<tr><td>1</td><td>Nama produk</td><td>${NAMA_PRODUK}</td></tr><tr><td>2</td><td>Deskripsikan produk akhir dan kategori proses</td><td>Kukis dengan isian selai nanas. Kategori Pangan: 07.2 - Kue Kering</td></tr><tr><td>3</td><td>Komposisi</td><td>Tepung, Mentega, Gula, Telur, Selai Nanas (Nanas, Gula, Rempah), Garam.</td></tr><tr><td>4</td><td>Pengemasan</td><td>Toples Plastik PET 500g, disegel.</td></tr><tr><td>5</td><td>Deskripsi Organoleptik</td><td>Rasa manis-gurih, aroma khas, warna kuning keemasan, tekstur renyah.</td></tr><tr><td>6</td><td>Masa Kadaluarsa</td><td>6 bulan setelah tanggal produksi.</td></tr><tr><td>7</td><td>Cara Transportasi</td><td>Dikemas dalam kardus, mobil box tertutup.</td></tr><tr><td>8</td><td>Cara Penyimpanan</td><td>Simpan di tempat sejuk dan kering, hindari sinar matahari.</td></tr><tr><td>9</td><td>Persyaratan Regulasi/SNI/Pelanggan</td><td>Memiliki P-IRT.</td></tr>`; },
+                '10': (el) => { el.querySelector('tbody').innerHTML = `<tr><td colspan="9" class="font-bold bg-gray-100">KARYAWAN</td></tr><tr><td>1</td><td>Cuci tangan sebelum bekerja</td><td>...</td><td class="text-center text-green-600 font-bold">V</td><td class="text-center text-green-600 font-bold">V</td><td class="text-center text-green-600 font-bold">V</td><td>...</td></tr><tr><td colspan="9" class="font-bold bg-gray-100">PERALATAN</td></tr><tr><td>2</td><td>Pembersihan Meja Pengemasan (akhir hari)</td><td>...</td><td class="text-center text-green-600 font-bold">V</td><td class="text-center text-green-600 font-bold">V</td><td class="text-center text-green-600 font-bold">V</td><td>...</td></tr>`; },
+                '11a': (el) => { el.querySelector('table').innerHTML = `<tbody><tr><td class="font-semibold w-1/3">Penyebab Penarikan (Recall Issue)</td><td>Laporan pelanggan tentang temuan benda asing (serpihan plastik keras).</td></tr><tr><td class="font-semibold w-1/3">Asal Informasi (Internal/External)</td><td>Eksternal (Keluhan Pelanggan via Telepon tgl 30/09/2025).</td></tr></tbody>`; },
+                '11b': (el) => { el.querySelector('table').innerHTML = `<tbody><tr><td class="font-semibold">Jenis Pangan Dan Nama Dagang</td><td>${NAMA_PRODUK}</td></tr><tr><td class="font-semibold">Jenis Kemasan</td><td>Toples Plastik 500g</td></tr><tr><td class="font-semibold">Kode Produksi</td><td>${KODE_BATCH}</td></tr><tr><td class="font-semibold">Tanggal Produksi</td><td>28/09/2025</td></tr><tr><td class="font-semibold">Tanggal Kedaluwarsa</td><td>28/03/2026</td></tr><tr><td class="font-semibold">Nomor PIRT</td><td>P-IRT 1234567890123-25</td></tr><tr><td class="font-semibold">Jumlah Produksi</td><td>12.5 kg (25 Toples)</td></tr><tr><td class="font-semibold">Jumlah Pangan Terkirim</td><td>10 Toples</td></tr><tr><td class="font-semibold">Jumlah Pangan Tersisa Di Gudang</td><td>15 Toples</td></tr><tr><td class="font-semibold">Rencana Tindak Lanjut</td><td>Menarik seluruh produk dari batch ${KODE_BATCH} dari peredaran.</td></tr></tbody>`; },
+                '11c': (el) => { el.querySelector('tbody').innerHTML = `<tr><td>29/09/2025</td><td>10 Toples</td><td>Toko Oleh-Oleh "RAOS"</td><td>INV/IX/25/001</td><td>A 1234 BCD</td><td>-</td></tr>`; },
+                '11d': (el) => { el.querySelector('tbody').innerHTML = `<tr><td>Mulai Penarikan</td><td>30/09/25 09:00</td><td>-</td><td>-</td></tr><tr><td>Identifikasi Asal Masalah</td><td>30/09/25 09:30</td><td>30/09/25 11:00</td><td>1.5 jam</td></tr><tr><td>Informasi Ke Seluruh Saluran Distribusi</td><td>30/09/25 11:00</td><td>30/09/25 12:00</td><td>1 jam</td></tr><tr><td>Akhir Penarikan</td><td>01/10/25 17:00</td><td>-</td><td>-</td></tr><tr><td class="font-bold text-right" colspan="3">Jumlah Total Waktu:</td><td>2 hari 8 jam</td></tr>`; },
+                '12a': (el) => { el.querySelector('tbody').innerHTML = `<tr><td class="font-semibold w-1/3">Tanggal Laporan</td><td>30/09/2025</td></tr><tr><td class="font-semibold w-1/3">Sumber Informasi</td><td>Keluhan Pelanggan</td></tr><tr><td class="font-semibold w-1/3">Nama Produk & Kode Produksi</td><td>${NAMA_PRODUK} / ${KODE_BATCH}</td></tr>`; },
+                '12b': (el) => { el.querySelector('tbody').innerHTML = `<tr><td>29/09/2025</td><td>10 Toples</td><td>Toko Oleh-Oleh "RAOS"</td><td>INV/IX/25/001</td></tr>`; },
+                '12c1': (el) => { el.querySelector('tbody').innerHTML = `<tr><td>Toples Plastik 500g</td><td>PT Kemas Rapi, Jakarta</td><td>KR-BATCH-789</td><td>27/09/2025</td></tr>`; },
+                '12c2': (el) => { el.querySelector('tbody').innerHTML = `<tr><td>28/09/2025 11:30</td><td>Pengemasan (CCP)</td><td>Visual check OK, kemasan tertutup rapat.</td><td>Investigasi sumber kontaminasi plastik. Dugaan: toples retak saat proses.</td></tr>`; },
+                '12c3': (el) => { el.querySelector('tbody').innerHTML = `<tr><td>Pembersihan Meja Pengemasan</td><td>Bersih, sesuai standar</td><td>28/09/2025, Shift 1, 07:30</td></tr>`; },
+            };
+            
+            // --- KONTEN SPESIFIK UNTUK BAGIAN DIAGRAM ALIR & ANALISIS CCP ---
+            const flowchartExampleContent = {
+                'diagram': `
+                    <div class="space-y-4 text-sm text-gray-800">
+                        <!-- Step 1: Penerimaan -->
+                        <div class="flex items-center gap-4">
+                            <div class="flex-shrink-0 w-32 h-16 bg-gray-200 rounded-lg flex items-center justify-center font-bold text-center p-2">Penerimaan Bahan</div>
+                            <div class="text-2xl font-bold text-gray-500">&rarr;</div>
+                            <div class="flex-grow p-2 border border-gray-300 rounded-md bg-gray-50">
+                                <p class="font-semibold">Pengecekan Kualitas & Kuantitas</p>
+                                <p class="text-xs">Formulir 1: Cek Tgl Kadaluarsa, Kondisi Fisik</p>
+                            </div>
+                            <div class="text-2xl font-bold text-gray-500">&rarr;</div>
+                             <div class="flex-grow p-2 border border-gray-300 rounded-md bg-gray-50">
+                                <p class="font-semibold">Penyimpanan</p>
+                                <p class="text-xs">Gudang Bahan Kering & Penyimpanan Dingin (untuk mentega)</p>
+                            </div>
+                        </div>
+                        <div class="pl-16 text-2xl font-bold text-gray-500">&darr;</div>
+                        <!-- Step 2: Persiapan -->
+                         <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-32 h-16 bg-blue-100 border-2 border-blue-500 rounded-lg flex items-center justify-center font-bold text-center p-2"><span class="font-bold text-blue-800">CP</span><br>Persiapan</div>
+                            <div class="text-2xl font-bold text-gray-500">&rarr;</div>
+                            <div class="flex-grow space-y-2">
+                                <div class="p-2 border border-blue-300 rounded-md bg-blue-50">
+                                    <p class="font-semibold">Proses 1: Pembuatan Selai</p>
+                                    <p class="text-xs">Input: Nanas, Gula, Rempah &rarr; Pengupasan & Pemarutan &rarr; Pemasakan (Tekstur kering) &rarr; Pendinginan</p>
+                                </div>
+                                 <div class="p-2 border border-blue-300 rounded-md bg-blue-50">
+                                    <p class="font-semibold">Proses 2: Pembuatan Adonan</p>
+                                    <p class="text-xs">Input: Tepung, Mentega, Gula, Telur &rarr; Pencampuran (Adonan Kalis)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pl-16 text-2xl font-bold text-gray-500">&darr;</div>
+                        <!-- Step 3: Pembentukan -->
+                        <div class="flex items-center gap-4">
+                            <div class="flex-shrink-0 w-32 h-16 bg-blue-100 border-2 border-blue-500 rounded-lg flex items-center justify-center font-bold text-center p-2"><span class="font-bold text-blue-800">CP</span><br>Pembentukan</div>
+                            <div class="text-2xl font-bold text-gray-500">&rarr;</div>
+                            <div class="flex-grow p-2 border border-blue-300 rounded-md bg-blue-50">
+                                <p class="font-semibold">Pengisian & Pengolesan</p>
+                                <p class="text-xs">Penimbangan & Pembulatan Adonan &rarr; Pemipihan & Pengisian dengan Selai &rarr; Pengolesan Kuning Telur</p>
+                            </div>
+                        </div>
+                        <div class="pl-16 text-2xl font-bold text-gray-500">&darr;</div>
+                         <!-- Step 4: Pemanggangan -->
+                        <div class="flex items-center gap-4">
+                            <div class="flex-shrink-0 w-32 h-16 bg-red-100 border-2 border-red-500 rounded-lg flex items-center justify-center font-bold text-center p-2"><span class="font-bold text-red-800">CCP</span><br>Pemanggangan</div>
+                            <div class="text-2xl font-bold text-gray-500">&rarr;</div>
+                            <div class="flex-grow p-2 border border-red-300 rounded-md bg-red-50">
+                                <p class="font-semibold">Pemanasan & Pemanggangan</p>
+                                <p class="text-xs">Pemanasan Oven (Suhu 160°C) &rarr; Pemanggangan (25 Menit)</p>
+                                <p class="text-xs font-bold text-red-700 mt-1">Parameter Kritis: Suhu dan Waktu harus dipantau ketat.</p>
+                            </div>
+                        </div>
+                         <div class="pl-16 text-2xl font-bold text-gray-500">&darr;</div>
+                        <!-- Step 5: Pendinginan -->
+                        <div class="flex items-center gap-4">
+                            <div class="flex-shrink-0 w-32 h-16 bg-gray-200 rounded-lg flex items-center justify-center font-bold text-center p-2">Pendinginan</div>
+                            <div class="text-2xl font-bold text-gray-500">&rarr;</div>
+                            <div class="flex-grow p-2 border border-gray-300 rounded-md bg-gray-50">
+                                <p class="font-semibold">Pendinginan Produk</p>
+                                <p class="text-xs">Produk didinginkan di rak pendingin hingga mencapai suhu ruang.</p>
+                            </div>
+                        </div>
+                        <div class="pl-16 text-2xl font-bold text-gray-500">&darr;</div>
+                        <!-- Step 6: Pengemasan -->
+                        <div class="flex items-center gap-4">
+                            <div class="flex-shrink-0 w-32 h-16 bg-red-100 border-2 border-red-500 rounded-lg flex items-center justify-center font-bold text-center p-2"><span class="font-bold text-red-800">CCP</span><br>Pengemasan</div>
+                            <div class="text-2xl font-bold text-gray-500">&rarr;</div>
+                             <div class="flex-grow p-2 border border-red-300 rounded-md bg-red-50">
+                                <p class="font-semibold">Sortasi, Pengemasan & Pelabelan</p>
+                                <p class="text-xs">Sortasi Kukis &rarr; Masuk Toples &rarr; Penutupan & Pensegelan &rarr; Pelabelan (Kode Prod, Exp Date)</p>
+                                <p class="text-xs font-bold text-red-700 mt-1">Parameter Kritis: Kondisi kemasan dan kebenaran label.</p>
+                            </div>
+                        </div>
+                        <div class="pl-16 text-2xl font-bold text-gray-500">&darr;</div>
+                        <!-- Step 7: Penyimpanan Akhir -->
+                        <div class="flex items-center gap-4">
+                            <div class="flex-shrink-0 w-32 h-16 bg-gray-200 rounded-lg flex items-center justify-center font-bold text-center p-2">Penyimpanan Akhir</div>
+                            <div class="text-2xl font-bold text-gray-500">&rarr;</div>
+                            <div class="flex-grow p-2 border border-gray-300 rounded-md bg-gray-50">
+                                <p class="font-semibold">Penyimpanan Produk Jadi</p>
+                                <p class="text-xs">Disimpan di gudang produk jadi sebelum didistribusikan.</p>
+                            </div>
+                        </div>
+                    </div>`,
+                'ccp': `
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr>
+                                    <th>Tahap Proses</th>
+                                    <th>Potensi Bahaya</th>
+                                    <th>Kategori</th>
+                                    <th>Tindakan Pengendalian / Batas Kritis</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Pemanggangan</strong></td>
+                                    <td>Biologis: Bakteri (mis. Salmonella dari telur) tidak mati sempurna.</td>
+                                    <td class="text-center font-bold text-red-600">CCP</td>
+                                    <td>Suhu & waktu oven. <strong>Batas Kritis: Suhu oven mencapai 160°C dan dipanggang selama minimal 25 menit.</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Pengemasan</strong></td>
+                                    <td>Fisik: Kontaminasi benda asing (rambut, debu, serpihan) masuk ke produk. Kimia: Migrasi zat dari kemasan.</td>
+                                    <td class="text-center font-bold text-red-600">CCP</td>
+                                    <td>Inspeksi visual kemasan sebelum & sesudah pengisian. <strong>Batas Kritis: Tidak ada kemasan retak/rusak. Menggunakan kemasan food grade.</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Persiapan (Selai & Adonan)</strong></td>
+                                    <td>Kualitas: Rasa, tekstur, atau konsistensi tidak sesuai standar.</td>
+                                    <td class="text-center font-bold text-blue-600">CP</td>
+                                    <td>Mengikuti resep dan prosedur standar yang telah ditetapkan (SOP).</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>`
+            };
+            
+            // --- SKRIP UTAMA ---
+            const flowchartContainer = document.getElementById('flowchart-container');
+            const formDisplayArea = document.getElementById('form-display-area');
+
+            // Inisialisasi semua kontainer form dengan template kosongnya
+            Object.keys(formTemplates).forEach(formId => {
+                const formElement = document.getElementById(`form-${formId}`);
+                if (formElement) {
+                    formElement.innerHTML = formTemplates[formId];
+                }
+            });
+
+            // Event Listener untuk navigasi Diagram Alur
+            flowchartContainer.addEventListener('click', (e) => {
+                const flowchartBox = e.target.closest('.flowchart-box');
+                if (!flowchartBox) return;
+
+                // Menangani state aktif
+                flowchartContainer.querySelectorAll('.flowchart-box').forEach(b => b.classList.remove('active'));
+                flowchartBox.classList.add('active');
+                
+                // Menampilkan form yang relevan
+                document.querySelectorAll('.form-content').forEach(form => form.classList.add('hidden'));
+                const formIdsToShow = flowchartBox.dataset.formIds.split(',');
+                formIdsToShow.forEach(id => {
+                    const formToShow = document.getElementById(`form-${id.trim()}`);
+                    if (formToShow) {
+                        formToShow.classList.remove('hidden');
+                    }
+                });
+                formDisplayArea.scrollIntoView();
+            });
+
+            // Event Listener untuk semua tombol di dalam area tampilan form
+            formDisplayArea.addEventListener('click', function(e) {
+                const button = e.target;
+                const formContainer = button.closest('.form-content');
+                if (!formContainer) return;
+                
+                const formId = formContainer.id.replace('form-', '');
+
+                if (button.matches('.btn-contoh')) {
+                    e.preventDefault();
+                    
+                    // Menangani kasus khusus untuk form 'production-flowchart'
+                    if (formId === 'production-flowchart') {
+                        const subForm = button.dataset.subForm; // 'diagram' atau 'ccp'
+                        const targetContainer = formContainer.querySelector(`#${subForm}-container`);
+                        if (targetContainer && flowchartExampleContent[subForm]) {
+                            targetContainer.innerHTML = flowchartExampleContent[subForm];
+                            targetContainer.classList.remove('text-gray-500', 'items-center', 'justify-center');
+                            button.classList.add('hidden');
+                            button.parentElement.querySelector('.btn-reset').classList.remove('hidden');
+                        }
+                    } else { // Menangani semua form lain seperti biasa
+                        if (exampleFunctions[formId]) {
+                            exampleFunctions[formId](formContainer);
+                            button.classList.add('hidden');
+                            const resetButton = button.parentElement.querySelector('.btn-reset');
+                            if (resetButton) {
+                                resetButton.classList.remove('hidden');
+                            }
+                        }
+                    }
+                }
+
+                if (button.matches('.btn-reset')) {
+                    e.preventDefault();
+                    
+                    // Menangani kasus khusus untuk form 'production-flowchart'
+                    if (formId === 'production-flowchart') {
+                        const subForm = button.dataset.subForm;
+                        const targetContainer = formContainer.querySelector(`#${subForm}-container`);
+                        let placeholderText = subForm === 'diagram' ? "(Klik 'Lihat Contoh' untuk menampilkan diagram)" : "(Klik 'Lihat Contoh' untuk menampilkan tabel analisis)";
+                        if (targetContainer) {
+                            targetContainer.innerHTML = placeholderText;
+                            targetContainer.classList.add('text-gray-500', 'items-center', 'justify-center');
+                            button.classList.add('hidden');
+                            button.parentElement.querySelector('.btn-contoh').classList.remove('hidden');
+                        }
+                    } else { // Menangani semua form lain
+                        if (formTemplates[formId]) {
+                            formContainer.innerHTML = formTemplates[formId];
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
